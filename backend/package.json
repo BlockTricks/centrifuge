@@ -1,0 +1,32 @@
+{
+  "name": "centrifuge",
+  "version": "1.0.0",
+  "description": "Centrifuge is a high-performance Stacks application leveraging Hiro Chainhooks to monitor and react to on-chain events in real-time. Built for developers who need instant, reliable triggers from the Stacks blockchain, Centrifuge serves as a robust foundation for event-driven dApps.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gbangbolaoluwagbemiga/centrifuge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gbangbolaoluwagbemiga/centrifuge/issues"
+  },
+  "homepage": "https://github.com/Gbangbolaoluwagbemiga/centrifuge#readme",
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

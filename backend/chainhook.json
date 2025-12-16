@@ -1,0 +1,34 @@
+{
+  "name": "centrifuge-hook",
+  "uuid": "centrifuge-uuid",
+  "chain": "stacks",
+  "version": 1,
+  "networks": {
+    "testnet": {
+      "if_this": {
+        "scope": "contract_call",
+        "contract_identifier": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.simple-counter",
+        "method": "increment"
+      },
+      "then_that": {
+        "http_post": {
+          "url": "http://localhost:3000/api/webhook",
+          "authorization_header": "Bearer secret-token"
+        }
+      }
+    },
+    "mainnet": {
+      "if_this": {
+        "scope": "contract_call",
+        "contract_identifier": "SP1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.simple-counter",
+        "method": "increment"
+      },
+      "then_that": {
+        "http_post": {
+          "url": "https://my-production-app.com/api/webhook",
+          "authorization_header": "Bearer secret-token"
+        }
+      }
+    }
+  }
+}
