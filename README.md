@@ -91,7 +91,7 @@ To deploy the contract to the Stacks Mainnet:
     Execute the deployment plan:
 
     ```bash
-    MNEMONIC="your 12 or 24 word seed phrase here" clarinet deploy --mainnet --plan default.mainnet-plan.yaml
+    MNEMONIC="your 12 or 24 word seed phrase here" clarinet deployments apply --deployment-plan-path deployments/default.mainnet-plan.yaml
     ```
 
     *Warning: This will cost real STX.*
