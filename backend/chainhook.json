@@ -20,12 +20,12 @@
     "mainnet": {
       "if_this": {
         "scope": "contract_call",
-        "contract_identifier": "SP1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.simple-counter",
+        "contract_identifier": "SP2QNSNKR3NRDWNTX0Q7R4T8WGBJ8RE8RA516AKZP.centrifuge-counter",
         "method": "increment"
       },
       "then_that": {
         "http_post": {
-          "url": "https://my-production-app.com/api/webhook",
+          "url": "http://localhost:3000/api/webhook",
           "authorization_header": "Bearer secret-token"
         }
       }

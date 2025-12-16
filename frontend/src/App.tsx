@@ -1,5 +1,5 @@
-import { AppConfig, UserSession, showConnect } from '@stacks/connect';
-import { STACKS_TESTNET } from '@stacks/network';
+import { AppConfig, UserSession, showConnect, openContractCall } from '@stacks/connect';
+import { STACKS_MAINNET } from '@stacks/network';
 import { fetchCallReadOnlyFunction, cvToValue, AnchorMode, PostConditionMode } from '@stacks/transactions';
 import { useState, useEffect } from 'react';
 import './App.css';
@@ -10,11 +10,11 @@ function App() {
 
   const appConfig = new AppConfig(['store_write', 'publish_data']);
   const session = new UserSession({ appConfig });
-  const network = STACKS_TESTNET;
+  const network = STACKS_MAINNET;
 
-  // Contract details (update these after deployment)
-  const contractAddress = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
-  const contractName = 'counter';
+  // Contract details
+  const contractAddress = 'SP2QNSNKR3NRDWNTX0Q7R4T8WGBJ8RE8RA516AKZP';
+  const contractName = 'centrifuge-counter';
 
   useEffect(() => {
     if (session.isUserSignedIn()) {
@@ -58,58 +58,20 @@ function App() {
     }
   };
 
-  const handleTransaction = async (functionName: string) => {
-    if (!userSession?.isUserSignedIn()) return;
-
-    const options = {
-      contractAddress,
-      contractName,
-      functionName,
-      functionArgs: [],
-      network,
-      appDetails: {
-        name: 'Centrifuge Counter',
-        icon: window.location.origin + '/vite.svg',
-      },
-      postConditionMode: PostConditionMode.Allow,
-      onFinish: (data: any) => {
-        console.log('Transaction submitted:', data);
-        // Optimistic update or polling could be added here
-      },
-    };
-
-    await showConnect({
-      ...options,
-      userSession,
-      // @ts-ignore - types mismatch in some versions of stacks.js
-      onFinish: options.onFinish
-    });
-    // For direct transaction signing without re-auth, we use openContractCall
-    // But showConnect is a wrapper that handles auth if needed.
-    // Let's use openContractCall from @stacks/connect actually.
-  };
-
-  // Re-implementing with openContractCall pattern for better UX
   const executeAction = (action: 'increment' | 'decrement') => {
     if (!userSession?.isUserSignedIn()) return;
     
-    // @ts-ignore
-    const { openContractCall } = import('@stacks/connect');
-    
-    // Dynamic import to avoid SSR issues if any (not here, but good practice)
-    import('@stacks/connect').then(({ openContractCall }) => {
-      openContractCall({
-        network,
-        anchorMode: AnchorMode.Any,
-        contractAddress,
-        contractName,
-        functionName: action,
-        functionArgs: [],
-        postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => {
-          console.log('TxId:', data.txId);
-        },
-      });
+    openContractCall({
+      network,
+      anchorMode: AnchorMode.Any,
+      contractAddress,
+      contractName,
+      functionName: action,
+      functionArgs: [],
+      postConditionMode: PostConditionMode.Allow,
+      onFinish: (data) => {
+        console.log('TxId:', data.txId);
+      },
     });
   };
 
@@ -127,7 +89,7 @@ function App() {
             <button onClick={() => executeAction('decrement')}>Decrement (-)</button>
           </div>
           <p style={{ marginTop: '20px', fontSize: '0.8em' }}>
-            Signed in as: {userSession.loadUserData().profile.stxAddress.testnet}
+            Signed in as: {userSession.loadUserData().profile.stxAddress.mainnet}
           </p>
           <button onClick={() => {
             session.signUserOut();
