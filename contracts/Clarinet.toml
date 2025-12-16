@@ -5,7 +5,7 @@ authors = []
 telemetry = true
 cache_dir = './.cache'
 requirements = []
-[contracts.counter]
+[contracts.centrifuge-counter]
 path = 'contracts/counter.clar'
 clarity_version = 4
 epoch = 'latest'
