@@ -1,27 +1,14 @@
 {
-  "name": "centrifuge-hook",
-  "uuid": "centrifuge-uuid",
+  "name": "centrifuge-king-hook",
+  "uuid": "centrifuge-king-uuid",
   "chain": "stacks",
   "version": 1,
   "networks": {
-    "testnet": {
-      "if_this": {
-        "scope": "contract_call",
-        "contract_identifier": "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.counter",
-        "method": "increment"
-      },
-      "then_that": {
-        "http_post": {
-          "url": "http://localhost:3000/api/webhook",
-          "authorization_header": "Bearer secret-token"
-        }
-      }
-    },
     "mainnet": {
       "if_this": {
-        "scope": "contract_call",
-        "contract_identifier": "SP2QNSNKR3NRDWNTX0Q7R4T8WGBJ8RE8RA516AKZP.centrifuge-counter",
-        "method": "increment"
+        "scope": "print_event",
+        "contract_identifier": "SP2QNSNKR3NRDWNTX0Q7R4T8WGBJ8RE8RA516AKZP.centrifuge-king",
+        "contains": "claim-crown"
       },
       "then_that": {
         "http_post": {

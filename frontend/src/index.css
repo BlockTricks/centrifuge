@@ -1,68 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  background-color: #0a0a0f;
+  color: #e0e0e0;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  @apply bg-cyber-black text-white font-mono min-h-screen flex items-center justify-center;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(20, 20, 40, 0.5) 0%, rgba(10, 10, 15, 1) 100%),
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.cyber-card {
+  @apply bg-cyber-gray border border-neon-blue/30 rounded-xl p-8 shadow-neon-blue/20 shadow-lg backdrop-blur-sm;
+  background: linear-gradient(145deg, rgba(26, 26, 36, 0.9), rgba(10, 10, 15, 0.95));
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.cyber-button {
+  @apply px-6 py-3 bg-transparent border-2 border-neon-blue text-neon-blue font-bold uppercase tracking-wider
+  hover:bg-neon-blue hover:text-black transition-all duration-300 shadow-[0_0_10px_rgba(0,255,255,0.3)]
+  active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  font-family: 'Orbitron', sans-serif;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.cyber-button-pink {
+  @apply px-6 py-3 bg-transparent border-2 border-neon-pink text-neon-pink font-bold uppercase tracking-wider
+  hover:bg-neon-pink hover:text-black transition-all duration-300 shadow-[0_0_10px_rgba(255,0,255,0.3)]
+  active:scale-95;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.cyber-input {
+  @apply bg-black/50 border border-neon-blue/50 rounded px-4 py-2 text-neon-blue w-full
+  focus:outline-none focus:border-neon-blue focus:shadow-[0_0_10px_rgba(0,255,255,0.2)];
+}
+
+.glitch-text {
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff;
+  animation: glitch 1s infinite alternate;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff; }
+  25% { text-shadow: -2px 2px 0px #ff00ff, 2px -2px 0px #00ffff; }
+  50% { text-shadow: 2px -2px 0px #ff00ff, -2px 2px 0px #00ffff; }
+  75% { text-shadow: -2px -2px 0px #ff00ff, 2px 2px 0px #00ffff; }
+  100% { text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff; }
 }
