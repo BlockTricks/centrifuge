@@ -1,6 +1,6 @@
 import { AppConfig, UserSession, showConnect, openContractCall, authenticate } from '@stacks/connect';
 import { STACKS_MAINNET } from '@stacks/network';
-import { fetchCallReadOnlyFunction, cvToValue, AnchorMode, PostConditionMode, stringUtf8CV } from '@stacks/transactions';
+import { fetchCallReadOnlyFunction, cvToValue, cvToJSON, AnchorMode, PostConditionMode, stringUtf8CV } from '@stacks/transactions';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
@@ -95,14 +95,25 @@ function App() {
         network: STACKS_MAINNET as any,
         senderAddress: contractAddress,
       });
-      
-      const value = cvToValue(result);
-      if (value) {
+
+      const json = cvToJSON(result as any);
+      let data: any = null;
+      if (json && json.type === 'response' && json.value?.type === 'ok') {
+        const okVal = json.value.value;
+        data = okVal?.data ?? okVal?.value ?? okVal;
+      }
+
+      if (data) {
+        const king = data.king?.value ?? data.king;
+        const priceRaw = data.price?.value ?? data.price;
+        const message = data.message?.value ?? data.message;
         setKingInfo({
-          king: value.king.value || value.king, 
-          price: Number(value.price.value || value.price),
-          message: value.message.value || value.message
+          king,
+          price: Number(priceRaw),
+          message,
         });
+      } else {
+        console.error('Unexpected read-only result shape:', json);
       }
     } catch (e) {
       console.error('Error fetching king info:', e);
