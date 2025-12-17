@@ -1,57 +1,119 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 :root {
-  background-color: #0a0a0f;
+  background-color: #000;
   color: #e0e0e0;
 }
 
 body {
-  @apply bg-cyber-black text-white font-mono min-h-screen flex items-center justify-center;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(20, 20, 40, 0.5) 0%, rgba(10, 10, 15, 1) 100%),
-    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 30px 30px, 30px 30px;
+  @apply bg-black text-white font-mono min-h-screen overflow-x-hidden;
+  /* Removed static grid background as we are using MatrixBackground component */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000; 
+}
+::-webkit-scrollbar-thumb {
+  background: #00ffff; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff00ff; 
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #00ff00;
 }
 
 .cyber-card {
-  @apply bg-cyber-gray border border-neon-blue/30 rounded-xl p-8 shadow-neon-blue/20 shadow-lg backdrop-blur-sm;
-  background: linear-gradient(145deg, rgba(26, 26, 36, 0.9), rgba(10, 10, 15, 0.95));
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .cyber-button {
-  @apply px-6 py-3 bg-transparent border-2 border-neon-blue text-neon-blue font-bold uppercase tracking-wider
-  hover:bg-neon-blue hover:text-black transition-all duration-300 shadow-[0_0_10px_rgba(0,255,255,0.3)]
-  active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply relative px-6 py-3 bg-transparent border border-neon-blue text-neon-blue font-bold uppercase tracking-widest
+  hover:bg-neon-blue hover:text-black transition-all duration-200
+  disabled:opacity-50 disabled:cursor-not-allowed;
   font-family: 'Orbitron', sans-serif;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.cyber-button:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
 }
 
 .cyber-button-pink {
-  @apply px-6 py-3 bg-transparent border-2 border-neon-pink text-neon-pink font-bold uppercase tracking-wider
-  hover:bg-neon-pink hover:text-black transition-all duration-300 shadow-[0_0_10px_rgba(255,0,255,0.3)]
-  active:scale-95;
+  @apply relative px-6 py-3 bg-transparent border border-neon-pink text-neon-pink font-bold uppercase tracking-widest
+  hover:bg-neon-pink hover:text-black transition-all duration-200
+  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-neon-pink disabled:hover:shadow-none;
   font-family: 'Orbitron', sans-serif;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.cyber-button-pink:hover {
+  box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
 }
 
 .cyber-input {
-  @apply bg-black/50 border border-neon-blue/50 rounded px-4 py-2 text-neon-blue w-full
-  focus:outline-none focus:border-neon-blue focus:shadow-[0_0_10px_rgba(0,255,255,0.2)];
+  @apply bg-black border border-neon-blue/30 text-neon-blue w-full px-4
+  focus:outline-none focus:border-neon-blue focus:shadow-[0_0_20px_rgba(0,255,255,0.2)];
+  font-family: 'Share Tech Mono', monospace;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
 }
 
 .glitch-text {
   font-family: 'Orbitron', sans-serif;
-  text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff;
-  animation: glitch 1s infinite alternate;
+  position: relative;
 }
 
-@keyframes glitch {
-  0% { text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff; }
-  25% { text-shadow: -2px 2px 0px #ff00ff, 2px -2px 0px #00ffff; }
-  50% { text-shadow: 2px -2px 0px #ff00ff, -2px 2px 0px #00ffff; }
-  75% { text-shadow: -2px -2px 0px #ff00ff, 2px 2px 0px #00ffff; }
-  100% { text-shadow: 2px 2px 0px #ff00ff, -2px -2px 0px #00ffff; }
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(children);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff00ff;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 #00ffff;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(30px, 9999px, 10px, 0); }
+  20% { clip: rect(80px, 9999px, 90px, 0); }
+  40% { clip: rect(10px, 9999px, 50px, 0); }
+  60% { clip: rect(40px, 9999px, 20px, 0); }
+  80% { clip: rect(70px, 9999px, 60px, 0); }
+  100% { clip: rect(20px, 9999px, 80px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(10px, 9999px, 80px, 0); }
+  20% { clip: rect(60px, 9999px, 10px, 0); }
+  40% { clip: rect(90px, 9999px, 30px, 0); }
+  60% { clip: rect(20px, 9999px, 70px, 0); }
+  80% { clip: rect(50px, 9999px, 40px, 0); }
+  100% { clip: rect(30px, 9999px, 90px, 0); }
 }
