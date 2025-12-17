@@ -9,10 +9,10 @@ plan:
     - id: 0
       transactions:
         - contract-publish:
-            contract-name: centrifuge-king
+            contract-name: centrifuge-king-v2
             expected-sender: SP2QNSNKR3NRDWNTX0Q7R4T8WGBJ8RE8RA516AKZP
             cost: 600000
-            path: contracts/centrifuge-king.clar
+            path: contracts/centrifuge-king-v2.clar
             anchor-block-only: true
             clarity-version: 4
       epoch: "3.3"

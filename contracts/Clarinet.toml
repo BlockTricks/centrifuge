@@ -9,6 +9,12 @@ requirements = []
 path = 'contracts/counter.clar'
 clarity_version = 4
 epoch = 'latest'
+
+[contracts.centrifuge-king-v2]
+path = 'contracts/centrifuge-king-v2.clar'
+clarity_version = 4
+epoch = 'latest'
+
 [repl.analysis]
 passes = ['check_checker']
 
