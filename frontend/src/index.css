@@ -2,7 +2,6 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
-
 :root {
   background-color: #000;
   color: #e0e0e0;
@@ -55,7 +54,8 @@ body {
 
 .cyber-button-pink {
   @apply relative px-6 py-3 bg-transparent border border-neon-pink text-neon-pink font-bold uppercase tracking-widest
-  hover:bg-neon-pink hover:text-black transition-all duration-200;
+  hover:bg-neon-pink hover:text-black transition-all duration-200
+  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-neon-pink disabled:hover:shadow-none;
   font-family: 'Orbitron', sans-serif;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
 }
@@ -102,18 +102,18 @@ body {
 
 @keyframes glitch-anim-1 {
   0% { clip: rect(30px, 9999px, 10px, 0); }
-  20% { clip: rect(70px, 9999px, 90px, 0); }
-  40% { clip: rect(20px, 9999px, 50px, 0); }
-  60% { clip: rect(60px, 9999px, 10px, 0); }
-  80% { clip: rect(10px, 9999px, 80px, 0); }
-  100% { clip: rect(90px, 9999px, 30px, 0); }
+  20% { clip: rect(80px, 9999px, 90px, 0); }
+  40% { clip: rect(10px, 9999px, 50px, 0); }
+  60% { clip: rect(40px, 9999px, 20px, 0); }
+  80% { clip: rect(70px, 9999px, 60px, 0); }
+  100% { clip: rect(20px, 9999px, 80px, 0); }
 }
 
 @keyframes glitch-anim-2 {
   0% { clip: rect(10px, 9999px, 80px, 0); }
-  20% { clip: rect(80px, 9999px, 10px, 0); }
-  40% { clip: rect(30px, 9999px, 60px, 0); }
-  60% { clip: rect(60px, 9999px, 30px, 0); }
-  80% { clip: rect(20px, 9999px, 90px, 0); }
-  100% { clip: rect(70px, 9999px, 20px, 0); }
+  20% { clip: rect(60px, 9999px, 10px, 0); }
+  40% { clip: rect(90px, 9999px, 30px, 0); }
+  60% { clip: rect(20px, 9999px, 70px, 0); }
+  80% { clip: rect(50px, 9999px, 40px, 0); }
+  100% { clip: rect(30px, 9999px, 90px, 0); }
 }

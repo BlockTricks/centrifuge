@@ -97,21 +97,43 @@ function App() {
       });
 
       const json = cvToJSON(result as any);
+      console.log('King Info JSON:', json); // Debug log
+
       let data: any = null;
-      if (json && json.type === 'response' && json.value?.type === 'ok') {
-        const okVal = json.value.value;
-        data = okVal?.data ?? okVal?.value ?? okVal;
+      
+      // Helper to unwrap response/ok layers
+      const unwrap = (obj: any): any => {
+        if (!obj) return null;
+        if (obj.success && obj.value) return unwrap(obj.value);
+        if (obj.type === 'success' || obj.type === 'ok') return unwrap(obj.value);
+        if (typeof obj.type === 'string' && obj.type.startsWith('(response')) return unwrap(obj.value); // Handle (response ...) wrapper
+        return obj;
+      };
+
+      data = unwrap(json);
+
+      // If data is wrapped in a tuple type
+      if (data && (data.type === 'tuple' || (typeof data.type === 'string' && data.type.startsWith('(tuple'))) && data.value) {
+        data = data.value;
       }
 
+      console.log('Unwrapped Data:', data);
+
       if (data) {
+        // Robustly extract values checking for .value wrapper
         const king = data.king?.value ?? data.king;
         const priceRaw = data.price?.value ?? data.price;
         const message = data.message?.value ?? data.message;
-        setKingInfo({
-          king,
-          price: Number(priceRaw),
-          message,
-        });
+        
+        if (king) {
+          setKingInfo({
+            king,
+            price: priceRaw !== undefined ? Number(priceRaw) : 0,
+            message: message || "No message",
+          });
+        } else {
+           console.error('Missing king property in data:', data);
+        }
       } else {
         console.error('Unexpected read-only result shape:', json);
       }
