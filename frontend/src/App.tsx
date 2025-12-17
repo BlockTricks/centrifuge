@@ -18,6 +18,7 @@ interface KingInfo {
 
 function App() {
   const [kingInfo, setKingInfo] = useState<KingInfo | null>(null);
+  const [contractError, setContractError] = useState<string | null>(null);
   const [userSession, setUserSession] = useState<UserSession | null>(null);
   const [newMessage, setNewMessage] = useState<string>('');
   const [bidAmount, setBidAmount] = useState<string>('1.0');
@@ -97,6 +98,8 @@ function App() {
         senderAddress: contractAddress,
       });
 
+      setContractError(null); // Clear previous errors if successful
+
       const json = cvToJSON(result as any);
       console.log('King Info JSON:', json); // Debug log
 
@@ -138,8 +141,13 @@ function App() {
       } else {
         console.error('Unexpected read-only result shape:', json);
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error('Error fetching king info:', e);
+      if (e.message && e.message.includes('NoSuchContract')) {
+        setContractError('Contract is currently being mined on Stacks Mainnet. Please wait...');
+      } else {
+        setContractError('Failed to sync with blockchain.');
+      }
     }
   };
 
@@ -290,8 +298,18 @@ function App() {
               </div>
             ) : (
               <div className="flex flex-col items-center gap-4">
-                <div className="w-12 h-12 border-4 border-neon-blue border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-neon-blue animate-pulse">SYNCING WITH STACKS...</p>
+                {contractError ? (
+                  <>
+                     <div className="text-4xl">⚠️</div>
+                     <p className="text-red-500 font-bold text-center max-w-xs">{contractError}</p>
+                     <p className="text-gray-500 text-xs text-center">Tx: 9f72...8de</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-12 h-12 border-4 border-neon-blue border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-neon-blue animate-pulse">SYNCING WITH STACKS...</p>
+                  </>
+                )}
               </div>
             )}
             
@@ -334,14 +352,19 @@ function App() {
               ) : (
                 <div className="space-y-8">
                   <div className="relative group">
-                    <label className="block text-xs text-neon-blue mb-2 uppercase tracking-widest">Bid Amount (STX)</label>
+                    <label className="block text-xs text-neon-blue mb-2 uppercase tracking-widest">
+                      Bid Amount (STX) 
+                      <span className="ml-2 text-neon-pink animate-pulse text-[10px]">
+                         (To Dethrone: &gt; {kingInfo ? (kingInfo.price / 1000000).toFixed(1) : '0'} STX)
+                      </span>
+                    </label>
                     <input
                       type="number"
                       step="0.1"
                       min="0.1"
                       value={bidAmount}
                       onChange={(e) => setBidAmount(e.target.value)}
-                      placeholder="AMOUNT..."
+                      placeholder={`> ${(kingInfo ? (kingInfo.price / 1000000).toFixed(1) : '0')} STX`}
                       className="cyber-input h-14 text-lg bg-black/50 border-neon-blue/50 focus:border-neon-pink focus:shadow-[0_0_15px_rgba(255,0,255,0.3)] transition-all mb-4"
                     />
                     

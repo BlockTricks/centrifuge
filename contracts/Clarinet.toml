@@ -12,8 +12,8 @@ epoch = 'latest'
 
 [contracts.centrifuge-king-v2]
 path = 'contracts/centrifuge-king-v2.clar'
-clarity_version = 4
-epoch = 'latest'
+clarity_version = 2
+epoch = '2.5'
 
 [repl.analysis]
 passes = ['check_checker']

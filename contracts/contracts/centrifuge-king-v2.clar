@@ -41,9 +41,10 @@
             (current-price (var-get current-stake))
             (king (var-get current-king))
             (sender tx-sender)
+            (contract-address (as-contract tx-sender))
         )
         ;; 1. User must transfer the bid amount to the contract first (to lock or distribute)
-        (try! (stx-transfer? amount sender (as-contract tx-sender)))
+        (try! (stx-transfer? amount sender contract-address))
 
         (if (> amount current-price)
             ;; SUCCESS: Dethrone the King
